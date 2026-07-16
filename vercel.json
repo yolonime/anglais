@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/ligne-j-jeremy.html" }
+  ]
+}
