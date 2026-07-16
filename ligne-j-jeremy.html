@@ -168,6 +168,16 @@
     .endcap__inner{margin-left:0}
     .direction .d1{display:none}
   }
+  .slides-btn{
+    margin-top:20px;display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;text-decoration:none;
+    padding:11px 22px;border-radius:8px;
+    background:var(--line-j);color:#fff;
+    transition:background .15s,transform .15s;
+    width:fit-content;
+  }
+  .slides-btn:hover{background:#006844;transform:translateY(-2px)}
   :focus-visible{outline:3px solid var(--line-j);outline-offset:3px;border-radius:3px}
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -194,6 +204,7 @@
     <h1>Jeremy,<br><span class="stroke">one line</span><br>at a time.</h1>
     <p class="lede">Not a résumé — a metro line. Five stops between raw data and the dashboards people actually use. Ride it top to bottom.</p>
     <div class="scrollcue"><span class="arr">↓</span> Board at the head of the line</div>
+    <a href="slides.html" class="slides-btn">▶ Presentation mode</a>
   </header>
 
   <main class="metro" id="metro">
