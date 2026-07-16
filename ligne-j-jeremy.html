@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ligne J — Jeremy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Expanded:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFCF8;
+    --paper-2:#F3F3EC;
+    --ink:#14171A;
+    --ink-soft:#4A5056;
+    --hair:#DBDBD1;
+    --line-j:#008C5A;      /* la ligne de Jeremy */
+    --c-blue:#0064B0;
+    --c-amber:#E09400;
+    --c-magenta:#A50E5B;
+    --c-violet:#6E4C9E;
+    --c-rose:#E36FA0;
+    --display:"Archivo Expanded",system-ui,sans-serif;
+    --body:"Archivo",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--body);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+
+  /* ---------- top signage bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:12px 22px;
+    background:rgba(252,252,248,.86);backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--ink);
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--mono);
+    font-weight:600;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
+  .brand .bullet{
+    width:26px;height:26px;border-radius:50%;background:var(--line-j);
+    display:grid;place-items:center;color:#fff;font-family:var(--display);
+    font-weight:900;font-size:14px;flex:none;
+    box-shadow:0 0 0 4px rgba(0,140,90,.16);
+  }
+  .direction{font-family:var(--mono);font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-soft);text-align:right;line-height:1.35}
+  .direction b{color:var(--ink);font-weight:600}
+  .pct{color:var(--line-j);font-weight:600}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 22px 26px;max-width:1080px;margin:0 auto}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px}
+  .hero h1{
+    font-family:var(--display);font-weight:900;
+    font-size:clamp(44px,10vw,104px);line-height:.9;letter-spacing:-.02em;
+    margin:0;text-transform:uppercase;
+  }
+  .hero h1 .stroke{color:transparent;-webkit-text-stroke:2px var(--ink)}
+  .hero .lede{max-width:620px;margin:22px 0 0;font-size:clamp(16px,2.1vw,19px);
+    color:var(--ink-soft)}
+  .scrollcue{margin-top:30px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);
+    display:inline-flex;align-items:center;gap:9px}
+  .scrollcue .arr{animation:bob 1.6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+  /* ---------- the line ---------- */
+  .metro{position:relative;max-width:1080px;margin:0 auto;padding:20px 22px 40px}
+  .rail{position:absolute;left:calc(22px + 31px);top:40px;bottom:120px;
+    width:6px;border-radius:6px;background:var(--hair)}
+  .rail__fill{position:absolute;left:0;top:0;width:100%;height:0;
+    border-radius:6px;background:var(--line-j);transition:height .12s linear}
+  .train{position:absolute;left:50%;top:0;transform:translate(-50%,-50%);
+    width:20px;height:20px;border-radius:50%;background:var(--line-j);
+    border:4px solid var(--paper);
+    box-shadow:0 0 0 3px var(--line-j),0 0 22px 3px rgba(0,140,90,.5);
+    opacity:0;transition:opacity .3s}
+  .metro.armed .train{opacity:1}
+
+  .station{
+    display:grid;grid-template-columns:64px 1fr;gap:8px;
+    padding:34px 0;position:relative;
+  }
+  .station__dotcol{display:flex;justify-content:center}
+  .station__dot{
+    position:sticky;top:96px;
+    width:30px;height:30px;border-radius:50%;
+    background:var(--paper);border:6px solid var(--hair);
+    transition:border-color .45s ease,transform .45s ease;
+    align-self:flex-start;
+  }
+  .station.active .station__dot{border-color:var(--line-j);transform:scale(1.08)}
+  .station.terminus .station__dot{border-radius:4px}
+
+  .station__body{
+    opacity:0;transform:translateY(16px);
+    transition:opacity .6s ease,transform .6s ease;
+    padding-bottom:4px;min-width:0;
+  }
+  .station.active .station__body{opacity:1;transform:none}
+
+  .stop-tag{font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;
+    display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+  .stop-tag .num{color:var(--line-j);font-weight:600}
+  .station h2{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(30px,5.4vw,54px);line-height:.98;letter-spacing:-.01em;
+    margin:0;text-transform:uppercase;
+  }
+  .station h2 small{display:block;font-family:var(--body);font-weight:600;
+    font-size:clamp(14px,2vw,17px);letter-spacing:0;text-transform:none;
+    color:var(--ink-soft);margin-top:9px}
+  .station p{max-width:600px;margin:16px 0 0;font-size:clamp(15px,1.9vw,17px)}
+
+  .edit{
+    background:linear-gradient(transparent 62%,rgba(224,148,0,.28) 0);
+    border-bottom:2px dashed var(--c-amber);padding:0 2px;font-weight:600;
+    white-space:nowrap;
+  }
+
+  /* correspondances = skills as connecting lines */
+  .corr{margin:20px 0 0;display:flex;flex-wrap:wrap;gap:8px 8px;align-items:center}
+  .corr .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-soft);margin-right:2px}
+  .chip{
+    font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.03em;
+    padding:5px 11px 5px 9px;border-radius:20px;
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--paper-2);border:1px solid var(--hair);
+    transition:transform .15s ease;cursor:default;
+  }
+  .chip:hover{transform:translateY(-2px)}
+  .chip::before{content:"";width:11px;height:11px;border-radius:50%;
+    background:var(--dotc,var(--ink))}
+  .chip.b{--dotc:var(--c-blue)} .chip.a{--dotc:var(--c-amber)}
+  .chip.m{--dotc:var(--c-magenta)} .chip.v{--dotc:var(--c-violet)}
+  .chip.r{--dotc:var(--c-rose)} .chip.g{--dotc:var(--line-j)}
+
+  .flow{margin-top:18px;display:inline-flex;align-items:center;gap:12px;
+    font-family:var(--mono);font-size:13px;font-weight:500;
+    padding:9px 15px;border:2px solid var(--ink);border-radius:6px}
+  .flow s{color:var(--ink-soft)}
+  .flow .to{color:var(--line-j);font-weight:600}
+
+  /* terminus footer card */
+  .endcap{max-width:1080px;margin:0 auto;padding:0 22px 80px}
+  .endcap__inner{margin-left:72px;border-top:2px solid var(--ink);
+    padding-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;
+    gap:14px;align-items:baseline}
+  .endcap__inner span{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-soft)}
+  .endcap__inner b{font-family:var(--display);font-weight:800;color:var(--line-j);
+    text-transform:uppercase;letter-spacing:.02em}
+
+  @media(max-width:560px){
+    .rail{left:calc(22px + 19px)}
+    .station{grid-template-columns:40px 1fr}
+    .station__dot{width:22px;height:22px;border-width:5px;top:88px}
+    .endcap__inner{margin-left:0}
+    .direction .d1{display:none}
+  }
+  :focus-visible{outline:3px solid var(--line-j);outline-offset:3px;border-radius:3px}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .station__body{opacity:1;transform:none}
+    .rail__fill{transition:none}
+    .scrollcue .arr{animation:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="RATP.svg.webp" alt="RATP" height="34" style="flex:none;object-fit:contain">
+      <span class="bullet">J</span><span>Ligne&nbsp;J</span>
+    </div>
+    <div class="direction">
+      <span class="d1">Direction </span><b>Objectives</b> · <span class="pct" id="pct">0%</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <p class="kicker">Réseau · Data &amp; Reporting · Île-de-France</p>
+    <h1>Jeremy,<br><span class="stroke">one line</span><br>at a time.</h1>
+    <p class="lede">Not a résumé — a metro line. Five stops between raw data and the dashboards people actually use. Ride it top to bottom.</p>
+    <div class="scrollcue"><span class="arr">↓</span> Board at the head of the line</div>
+  </header>
+
+  <main class="metro" id="metro">
+    <div class="rail"><div class="rail__fill" id="fill"><span class="train"></span></div></div>
+
+    <!-- 01 — WHO -->
+    <section class="station terminus" data-i="1">
+      <div class="station__dotcol"><div class="station__dot"></div></div>
+      <div class="station__body">
+        <p class="stop-tag"><span class="num">01</span> · Tête de ligne · Who</p>
+        <h2>Jeremy<small>Data &amp; Reporting Developer — one foot in the query, one in the dashboard.</small></h2>
+        <p>I'm currently a data &amp; reporting developer and a Big&nbsp;Data Master's student. My whole job is turning messy operational data into something a maintenance team can read at a glance.</p>
+        <div class="corr">
+          <span class="lbl">Correspondances</span>
+          <span class="chip b">SQL</span>
+          <span class="chip a">DAX</span>
+          <span class="chip v">VBA</span>
+          <span class="chip r">Python</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 — STUDY -->
+    <section class="station" data-i="2">
+      <div class="station__dotcol"><div class="station__dot"></div></div>
+      <div class="station__body">
+        <p class="stop-tag"><span class="num">02</span> · Arrêt · Study</p>
+        <h2>Sup de Vinci<small>MSc Big Data — work-study (alternance)</small></h2>
+        <p>I'm finishing a Master's degree in Big Data at Sup de Vinci through an <em>alternance</em> program: one rhythm in the classroom, the other shipping real work at the company. Theory and production on the same ticket.</p>
+      </div>
+    </section>
+
+    <!-- 03 — WORK -->
+    <section class="station" data-i="3">
+      <div class="station__dotcol"><div class="station__dot"></div></div>
+      <div class="station__body">
+        <p class="stop-tag"><span class="num">03</span> · Arrêt · Work</p>
+        <h2>RATP · AME<small>Atelier de Maintenance des Équipements — Paris public transport</small></h2>
+        <p>I work as a data &amp; reporting developer inside the AME department at RATP. I've been with the company for <span class="edit">[2&nbsp;years]</span>. My main line: driving the migration of our maintenance-management system (GMAO) from the legacy <b>Rimses</b> to the new <b>Magellan</b>.</p>
+        <div class="flow"><s>Rimses</s> <span>→</span> <span class="to">Magellan</span></div>
+      </div>
+    </section>
+
+    <!-- 04 — WHAT I DO -->
+    <section class="station" data-i="4">
+      <div class="station__dotcol"><div class="station__dot"></div></div>
+      <div class="station__body">
+        <p class="stop-tag"><span class="num">04</span> · Arrêt · Daily</p>
+        <h2>What I do<small>Where the data actually gets moved.</small></h2>
+        <p>Day to day I write SQL queries, build Power BI dashboards with DAX, develop VBA macros to automate the crunching, and wire up Power Automate &amp; SharePoint workflows. Most of it comes down to reconciling data, auditing quality, and keeping our maintenance data reliable and consistent.</p>
+        <div class="corr">
+          <span class="lbl">Correspondances</span>
+          <span class="chip b">SQL</span>
+          <span class="chip a">Power BI · DAX</span>
+          <span class="chip v">VBA</span>
+          <span class="chip m">Power Automate</span>
+          <span class="chip r">SharePoint</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 — GOALS -->
+    <section class="station terminus" data-i="5">
+      <div class="station__dotcol"><div class="station__dot"></div></div>
+      <div class="station__body">
+        <p class="stop-tag"><span class="num">05</span> · Terminus · Goals</p>
+        <h2>Next stop:<br>Objectives</h2>
+        <p>Where this line is heading: keep growing as a data professional — pairing solid technical skills with a real grip on business needs — finish my Master's, and gain hands-on experience in data engineering and analytics.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="endcap">
+    <div class="endcap__inner">
+      <span>Fin de ligne · Thanks for riding</span>
+      <b>Ligne J → Objectives</b>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var metro = document.getElementById('metro');
+  var fill  = document.getElementById('fill');
+  var pctEl = document.getElementById('pct');
+  var stations = Array.prototype.slice.call(document.querySelectorAll('.station'));
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // reveal stations
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('active'); });
+    },{threshold:.35, rootMargin:'0px 0px -12% 0px'});
+    stations.forEach(function(s){ io.observe(s); });
+  } else {
+    stations.forEach(function(s){ s.classList.add('active'); });
+  }
+
+  // progress line + train + percentage
+  var ticking=false;
+  function update(){
+    ticking=false;
+    var rect = metro.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var scrolled = -rect.top;
+    var total = Math.max(1, rect.height - vh);
+    var p = Math.max(0, Math.min(1, scrolled / total));
+    fill.style.height = (p*100).toFixed(2)+'%';
+    pctEl.textContent = Math.round(p*100)+'%';
+    if(p>0.001) metro.classList.add('armed');
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update);} }
+
+  if(reduce){
+    fill.style.height='100%'; pctEl.textContent='100%';
+    stations.forEach(function(s){ s.classList.add('active'); });
+    metro.classList.add('armed');
+  } else {
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+})();
+</script>
+</body>
+</html>
